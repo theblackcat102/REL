@@ -22,7 +22,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    data_files=[('models', ['models/*.json'])],
+    data_files=[('models', ['models/models.json'])],
     install_requires=required,
     include_package_data=True,
     python_requires=">=3.6",
