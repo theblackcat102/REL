@@ -82,7 +82,7 @@ To run the API locally, use the same commands as mentioned in the previous secti
 ## Installation from source
 Run the following command in a terminal to install REL:
 ```
-pip install git+https://github.com/informagi/REL
+pip install git+https://github.com/theblackcat102/REL
 ```
 You will also need to manually download the files described in the next section.
 

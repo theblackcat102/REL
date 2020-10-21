@@ -32,13 +32,14 @@ wiki_prefix = "en.wikipedia.org/wiki/"
 
 
 class EntityDisambiguation:
-    def __init__(self, base_url, wiki_version, user_config, reset_embeddings=False):
+    def __init__(self, base_url, wiki_version, user_config, reset_embeddings=False, target_device=None):
         self.base_url = base_url
         self.wiki_version = wiki_version
         self.embeddings = {}
         self.config = self.__get_config(user_config)
-
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        if target_device is not None:
+            self.device = torch.device(target_device)        
         self.prerank_model = None
         self.model = None
         self.reset_embeddings = reset_embeddings
