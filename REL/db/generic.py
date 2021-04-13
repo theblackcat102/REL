@@ -17,6 +17,7 @@ class GenericLookup(DB):
         table_name="embeddings",
         d_emb=300,
         columns={"emb": "blob"},
+        whitelist=None,
     ):
         """
         Args:
@@ -28,6 +29,9 @@ class GenericLookup(DB):
             "word": {"cnt": 0, "sum": zeros(d_emb)},
             "entity": {"cnt": 0, "sum": zeros(d_emb)},
         }
+        self.whitelist = whitelist
+        if self.whitelist is not None:
+            self.whitelist = set(self.whitelist)
 
         path_db = os.path.join(save_dir, f"{name}.db")
 
@@ -41,8 +45,12 @@ class GenericLookup(DB):
         g = self.lookup(words, table_name)
         return g
 
-    def wiki(self, mention, table_name, column_name="p_e_m"):
+    def wiki(self, mention, table_name='wiki', column_name="p_e_m"):
+
         g = self.lookup_wik(mention, table_name, column_name)
+        if self.whitelist is not None and g is not None:
+            filtered = [  (text, p) for (text, p) in g if text in self.whitelist]
+            return None if len(filtered) == 0 else filtered
         return g
 
     def load_word2emb(self, file_name, batch_size=5000, limit=np.inf, reset=False):
